@@ -1,0 +1,329 @@
+/* =========================================================
+   PIZZARIA PRO — globals.css v3
+   ========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Variables ── */
+:root {
+  --cor-primaria:    #E8380D;
+  --cor-secundaria:  #F5A623;
+  --cor-glow:        rgba(232,56,13,0.3);
+  --cor-fundo:       #111111;
+  --cor-card:        #1C1C1C;
+  --cor-borda:       rgba(255,255,255,0.07);
+  --cor-texto:       #FDF8F0;
+  --cor-muted:       rgba(253,248,240,0.55);
+  --radius-card:     1.25rem;
+  --transition:      300ms cubic-bezier(0.4,0,0.2,1);
+  --spring:          500ms cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Garante que sempre inicia no topo */
+  scroll-padding-top: 0;
+}
+
+body {
+  font-family: "DM Sans", system-ui, sans-serif;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,h2,h3,h4 {
+  font-family: "Playfair Display", Georgia, serif;
+  line-height: 1.15;
+}
+
+::selection { background: var(--cor-primaria); color: white; }
+:focus-visible { outline: 2px solid var(--cor-primaria); outline-offset: 3px; }
+* { -webkit-tap-highlight-color: transparent; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cor-fundo); }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cor-primaria); }
+
+/* ── Page body — vem logo após o hero sem espaço preto ── */
+.page-body {
+  position: relative;
+  z-index: 10;
+  background: var(--cor-fundo);
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius-card);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  overflow: hidden;
+  will-change: transform;
+}
+
+.card:hover {
+  border-color: color-mix(in srgb, var(--cor-primaria) 35%, transparent);
+  box-shadow: 0 8px 36px color-mix(in srgb, var(--cor-primaria) 15%, transparent);
+  transform: translateY(-4px);
+}
+
+/* ── Imagem do card ── */
+.card-img {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.card:hover .card-img img {
+  transform: scale(1.05);
+}
+
+/* ── Botões ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--cor-primaria);
+  color: white;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  border-radius: 0.875rem;
+  border: none;
+  cursor: pointer;
+  transition: filter var(--transition), transform var(--transition), box-shadow var(--transition);
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px var(--cor-glow);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.04);
+  color: rgba(253,248,240,0.82);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.28);
+  color: var(--cor-texto);
+}
+
+/* ── Pills de categoria ── */
+.pill {
+  border: 1px solid var(--cor-borda);
+  border-radius: 9999px;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  background: transparent;
+  color: var(--cor-muted);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.pill:hover {
+  border-color: var(--cor-primaria);
+  color: var(--cor-texto);
+  background: color-mix(in srgb, var(--cor-primaria) 8%, transparent);
+}
+
+.pill.active {
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: white;
+  box-shadow: 0 0 16px var(--cor-glow);
+}
+
+/* ── Badges ── */
+.badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  line-height: 1.4;
+}
+
+.badge-red   { background: var(--cor-primaria);   color: white; }
+.badge-gold  { background: var(--cor-secundaria); color: #111; }
+.badge-green { background: #16a34a;               color: white; }
+
+/* ── Número da pizza ── */
+.pizza-num {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: 1.65rem;
+  line-height: 1;
+  color: var(--cor-primaria);
+  text-shadow: 0 0 18px var(--cor-glow);
+  flex-shrink: 0;
+  min-width: 2.5rem;
+}
+
+/* ── Preço ── */
+.price {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--cor-secundaria);
+  line-height: 1;
+}
+
+/* ── Divider ── */
+.divider {
+  width: 3.5rem;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
+  border-radius: 9999px;
+  margin: 0.75rem 0 1.5rem;
+}
+
+/* ── Gradient text ── */
+.text-grad {
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── WhatsApp FAB ── */
+.whatsapp-fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 200;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--spring), box-shadow var(--spring);
+}
+
+.whatsapp-fab:hover {
+  transform: scale(1.12);
+  box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+}
+
+.whatsapp-fab::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(37,211,102,0.35);
+  animation: pulse-fab 2.5s ease-out infinite;
+}
+
+@keyframes pulse-fab {
+  0%   { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ── Back to top ── */
+.back-to-top {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.5rem;
+  z-index: 200;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: rgba(28,28,28,0.9);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+  color: rgba(253,248,240,0.7);
+}
+
+.back-to-top:hover {
+  transform: translateY(-3px);
+  color: var(--cor-texto);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* ── Glass navbar ── */
+.glass {
+  background: rgba(17,17,17,0.8);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+/* ── Skeleton ── */
+.skeleton {
+  background: linear-gradient(90deg, #1c1c1c 25%, #252525 50%, #1c1c1c 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-card);
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scrollbar hide ── */
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ── Mobile responsivo ── */
+@media (max-width: 640px) {
+  .pizza-num { font-size: 1.4rem; }
+  .price     { font-size: 1.2rem; }
+}
