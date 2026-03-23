@@ -32,15 +32,15 @@ const Home: NextPage = () => {
         <meta name="apple-mobile-web-app-capable"          content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context":    "https://schema.org",
-          "@type":       "Restaurant",
-          name:          LOJA.nome,
-          description:   LOJA.descricaoSEO,
-          telephone:     LOJA.whatsapp,
-          servesCuisine: "Pizza",
-          ...(LOJA.endereco  && { address: { "@type": "PostalAddress", streetAddress: LOJA.endereco } }),
-          ...(LOJA.instagram && { sameAs: [`https://instagram.com/${LOJA.instagram}`] }),
-        })}} />
+            "@context":    "https://schema.org",
+            "@type":       "Restaurant",
+            name:          LOJA.nome,
+            description:   LOJA.descricaoSEO,
+            telephone:     LOJA.whatsapp,
+            servesCuisine: "Pizza",
+            address:       LOJA.endereco ? { "@type": "PostalAddress", streetAddress: LOJA.endereco } : undefined,
+            sameAs:        LOJA.instagram ? [`https://instagram.com/${LOJA.instagram}`] : undefined,
+          })}} />
       </Head>
 
       <Script id="scroll-top" strategy="beforeInteractive">
