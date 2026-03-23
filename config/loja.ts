@@ -8,11 +8,11 @@
 export const LOJA = {
   nome:        "Fogaça's Pizza",
   nomeSlug:    "fogacas-pizza",        // usado em SEO e meta tags
-  slogan:      "Massa aberta na hora, sabor em cada fatia",
+  slogan:      "Sabooor em cada fatia",
   descricaoSEO:"Cardápio digital com pedidos via WhatsApp. Massa artesanal aberta na hora e assada no forno elétrico de esteira.",
   whatsapp:    "5562991561911",         // apenas números: DDI + DDD + número
-  endereco:    "",                      // ex: "Rua das Pizzas, 123 — Goiânia/GO"
-  instagram:   "",                      // apenas o @ sem o @, ex: "fogacaspizza"
+  endereco:    "R. Quintino Bocaiúva - St. Campinas, Goiânia - GO, 74515-050",                      // ex: "Rua das Pizzas, 123 — Goiânia/GO"
+  instagram:   "fogacas_pizza",                      // apenas o @ sem o @, ex: "fogacaspizza"
   cor:         "red" as ThemeCor,       // veja opções abaixo em ThemeCor
 
   horarios: [
