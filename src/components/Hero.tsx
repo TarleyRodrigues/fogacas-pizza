@@ -52,17 +52,13 @@ export default function Hero() {
           alt={LOJA.nome}
           style={{
             position: "absolute",
-  top: "-15%",
-  left: 0,
-  width: "100%",
-  height: "130%",
-  objectFit: "cover",
-  objectPosition: "center 30%",
-  transform: `translateY(${imgY}px)`,
-  willChange: "transform",
-  imageRendering: "auto",
-  WebkitBackfaceVisibility: "hidden",
-  backfaceVisibility: "hidden",
+            inset: "-12% 0 -12%",
+            width: "100%",
+            height: "124%",
+            objectFit: "cover",
+            objectPosition: "center 30%",
+            transform: `translateY(${imgY}px)`,
+            willChange: "transform",
           }}
         />
 

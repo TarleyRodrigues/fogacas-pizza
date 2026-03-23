@@ -22,6 +22,23 @@ export default function BackToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.6, y: 12 }}
           transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+          style={{
+            position: "fixed",
+            bottom: "5.5rem",
+            right: "1.25rem",
+            zIndex: 201,
+            width: "2.75rem",
+            height: "2.75rem",
+            borderRadius: "50%",
+            background: "linear-gradient(135deg, #C9952A, #F0C060)",
+            border: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            boxShadow: "0 4px 20px rgba(201,149,42,0.5)",
+            color: "#0A0A0A",
+          }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
