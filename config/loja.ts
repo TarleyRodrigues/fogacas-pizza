@@ -187,7 +187,7 @@ export const TEXTOS = {
     { icon: "🕐", titulo: "Ter a Dom — 07h às 23h",    desc: "Quase sempre aqui por você"       },
   ],
   hero: {
-    tagline: "Massa aberta na hora, sabor em cada fatia",
+    tagline: "Sabooooor em cada fatia 👌",
     titulo1: "A pizza",
     titulo2: "perfeita",
     titulo3: "começa aqui.",
