@@ -12,6 +12,12 @@ const TAMANHOS: { key: TamanhoKey; label: string; full: string }[] = [
   { key: "G", label: "G", full: "Grande"  },
 ];
 
+function toSlug(nome: string) {
+  return nome.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 export default function MeioAMeio({ aberto, fechar }: Props) {
   const { adicionarMeioMeio } = useCarrinho();
 
@@ -64,18 +70,15 @@ export default function MeioAMeio({ aberto, fechar }: Props) {
     <AnimatePresence>
       {aberto && (
         <>
-          {/* Backdrop */}
           <motion.div key="bd" onClick={reset}
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             style={{ position: "fixed", inset: 0, zIndex: 400, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(6px)" }}
           />
 
-          {/* Container centralizador — sem depender de transform do Framer */}
           <div style={{
             position: "fixed", inset: 0, zIndex: 401,
             display: "flex", alignItems: "center", justifyContent: "center",
-            padding: "1rem",
-            pointerEvents: "none",
+            padding: "1rem", pointerEvents: "none",
           }}>
             <motion.div key="modal"
               initial={{ opacity: 0, scale: 0.93, y: 24 }}
@@ -83,17 +86,11 @@ export default function MeioAMeio({ aberto, fechar }: Props) {
               exit={{ opacity: 0, scale: 0.93, y: 24 }}
               transition={{ type: "spring", stiffness: 350, damping: 32 }}
               style={{
-                pointerEvents: "all",
-                width: "100%",
-                maxWidth: "680px",
-                maxHeight: "calc(100dvh - 2rem)",
-                background: "#0f0f0f",
-                border: "1px solid rgba(201,149,42,0.2)",
-                borderRadius: "1.5rem",
-                display: "flex",
-                flexDirection: "column",
-                boxShadow: "0 32px 80px rgba(0,0,0,0.7)",
-                overflow: "hidden",
+                pointerEvents: "all", width: "100%", maxWidth: "680px",
+                maxHeight: "calc(100dvh - 2rem)", background: "#0f0f0f",
+                border: "1px solid rgba(201,149,42,0.2)", borderRadius: "1.5rem",
+                display: "flex", flexDirection: "column",
+                boxShadow: "0 32px 80px rgba(0,0,0,0.7)", overflow: "hidden",
               }}>
 
               {/* Header */}
@@ -138,6 +135,7 @@ export default function MeioAMeio({ aberto, fechar }: Props) {
               {/* Conteúdo rolável */}
               <div style={{ flex: 1, overflowY: "auto", padding: "1rem 1.25rem", WebkitOverflowScrolling: "touch" } as React.CSSProperties}>
 
+                {/* Etapas 1 e 2 — lista de pizzas */}
                 {(etapa === 1 || etapa === 2) && (
                   <>
                     <input
@@ -155,7 +153,6 @@ export default function MeioAMeio({ aberto, fechar }: Props) {
                       onFocus={e => e.target.style.borderColor = "rgba(201,149,42,0.5)"}
                       onBlur={e  => e.target.style.borderColor = "rgba(201,149,42,0.2)"}
                     />
-
                     {(["salgadas", "doces"] as const).map(cat => {
                       const base  = cat === "salgadas" ? pizzasSalgadas : pizzasDoces;
                       const lista = filtrar(base, etapa === 1 ? busca1 : busca2);
@@ -191,7 +188,7 @@ export default function MeioAMeio({ aberto, fechar }: Props) {
                                     background: "linear-gradient(135deg, #F0C060, #C9952A)",
                                     WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
                                   }}>
-                                    {String(p.id).padStart(2,"0")}
+                                    {String(p.id).padStart(2,"00")}
                                   </span>
                                   <div style={{ flex: 1, minWidth: 0 }}>
                                     <p style={{ fontSize: "0.85rem", fontWeight: 600, color: "#F5F0E8", marginBottom: "1px" }}>{p.nome}</p>
@@ -213,29 +210,71 @@ export default function MeioAMeio({ aberto, fechar }: Props) {
                   </>
                 )}
 
+                {/* Etapa 3 — resumo com imagens ao fundo */}
                 {etapa === 3 && pizza1 && pizza2 && (
                   <div>
-                    {/* Visualização meio a meio */}
-                    <div style={{ display: "flex", borderRadius: "1rem", overflow: "hidden", border: "1px solid rgba(201,149,42,0.2)", marginBottom: "1.25rem" }}>
-                      {[pizza1, pizza2].map((p, i) => (
-                        <div key={p.id} style={{
-                          flex: 1, padding: "1rem", textAlign: "center",
-                          background: i === 0 ? "rgba(232,56,13,0.06)" : "rgba(201,149,42,0.06)",
-                          borderRight: i === 0 ? "1px dashed rgba(201,149,42,0.2)" : "none",
-                        }}>
-                          <p style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: i === 0 ? "#E8380D" : "#C9952A", marginBottom: "0.4rem" }}>
-                            {i === 0 ? "1ª Metade" : "2ª Metade"}
-                          </p>
-                          <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: "1.4rem", background: "linear-gradient(135deg, #F0C060, #C9952A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: "0.2rem" }}>
-                            {String(p.id).padStart(2,"0")}
-                          </p>
-                          <p style={{ fontSize: "0.82rem", fontWeight: 600, color: "#F5F0E8", marginBottom: "0.4rem" }}>{p.nome}</p>
-                          <button onClick={() => { if (i === 0) { setMetade1(null); setEtapa(1); } else { setMetade2(null); setEtapa(2); } }}
-                            style={{ background: "none", border: "none", fontSize: "0.65rem", color: "rgba(245,240,232,0.35)", cursor: "pointer", textDecoration: "underline" }}>
-                            Trocar
-                          </button>
-                        </div>
-                      ))}
+                    {/* Card meio a meio com imagens */}
+                    <div style={{
+                      display: "flex", borderRadius: "1rem", overflow: "hidden",
+                      border: "1px solid rgba(201,149,42,0.2)", marginBottom: "1.25rem",
+                    }}>
+                      {[pizza1, pizza2].map((p, i) => {
+                        const slug = toSlug(p.nome);
+                        return (
+                          <div key={p.id} style={{
+                            flex: 1, textAlign: "center", position: "relative",
+                            overflow: "hidden", minHeight: "160px",
+                            borderRight: i === 0 ? "1px dashed rgba(201,149,42,0.25)" : "none",
+                          }}>
+                            {/* Imagem de fundo */}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={`/images/pizzas/${slug}.jpg`}
+                              alt=""
+                              style={{
+                                position: "absolute", inset: 0,
+                                width: "100%", height: "100%",
+                                objectFit: "cover",
+                                opacity: 0.22,
+                                filter: "blur(1.5px) saturate(1.5)",
+                              }}
+                              onError={e => { e.currentTarget.style.display = "none"; }}
+                            />
+                            {/* Overlay de cor por cima da imagem */}
+                            <div style={{
+                              position: "absolute", inset: 0,
+                              background: i === 0
+                                ? "linear-gradient(160deg, rgba(232,56,13,0.55) 0%, rgba(10,10,10,0.75) 100%)"
+                                : "linear-gradient(160deg, rgba(201,149,42,0.45) 0%, rgba(10,10,10,0.75) 100%)",
+                            }} />
+                            {/* Conteúdo */}
+                            <div style={{ position: "relative", zIndex: 1, padding: "1rem" }}>
+                              <p style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: i === 0 ? "#ff7a5c" : "#F0C060", marginBottom: "0.4rem" }}>
+                                {i === 0 ? "1ª Metade" : "2ª Metade"}
+                              </p>
+                              <p style={{
+                                fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: "1.6rem",
+                                background: "linear-gradient(135deg, #F0C060, #C9952A)",
+                                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                                marginBottom: "0.2rem", lineHeight: 1,
+                              }}>
+                                {String(p.id).padStart(2,"0")}
+                              </p>
+                              <p style={{ fontSize: "0.82rem", fontWeight: 700, color: "#F5F0E8", marginBottom: "0.5rem" }}>{p.nome}</p>
+                              <button
+                                onClick={() => { if (i === 0) { setMetade1(null); setEtapa(1); } else { setMetade2(null); setEtapa(2); } }}
+                                style={{
+                                  background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)",
+                                  borderRadius: "9999px", padding: "0.2rem 0.75rem",
+                                  fontSize: "0.65rem", color: "rgba(245,240,232,0.7)",
+                                  cursor: "pointer",
+                                }}>
+                                Trocar
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
 
                     {/* Tamanho */}
